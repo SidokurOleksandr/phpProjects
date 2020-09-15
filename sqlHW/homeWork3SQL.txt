@@ -1,0 +1,39 @@
+ALTER TABLE hw3db.accounts
+ADD CONSTRAINT uc_account unique(user_id, currency_id);
+
+ALTER TABLE hw3db.cashboxes
+ADD CONSTRAINT uc_cashbox UNIQUE(model, currency_id);
+
+1) 
+SELECT *
+FROM users
+ORDER BY NAME
+
+2)
+SELECT *
+FROM users
+WHERE age >40
+
+3)
+SELECT *
+FROM users
+WHERE age BETWEEN 20 AND 40
+
+4)
+SELECT users.*, hw3db.accounts.balance
+FROM users
+JOIN accounts ON accounts.user_id = users.id
+WHERE accounts.balance>1000
+GROUP BY users.name;
+
+5)
+SELECT logs.*,cashboxes.model, SUM(logs.amount) AS total_sum
+FROM logs
+left JOIN cashboxes ON logs.cashbox_id = cashboxes.id 
+GROUP BY cashboxes.model
+
+6)
+SELECT cashboxes.model,sum(amounts.value*amounts.quantity) AS total_in_cashbox
+FROM cashboxes
+JOIN amounts ON amounts.cashbox_id = cashboxes.id
+GROUP BY cashboxes.model
